@@ -1,0 +1,18 @@
+services:
+  oracle-db:
+    image: oracle/database:19.3.0-ee
+    container_name: oracle-db
+    ports:
+      - "1521:1521"
+    
+    environment:
+      - ORACLE_SID=ORCL
+      - ORACLE_PDB=ORCLPDB1
+      - ORACLE_PWD=TEST
+    
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+    
+
+volumes:
+  oracle-data:

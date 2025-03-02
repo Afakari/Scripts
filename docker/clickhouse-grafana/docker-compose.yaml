@@ -1,0 +1,24 @@
+version: '3.8'
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server
+    user: "101:101"
+    container_name: clickhouse
+    hostname: clickhouse
+    volumes:
+      - ${PWD}/clickhouse/config.d/config.xml:/etc/clickhouse-server/config.d/config.xml
+      - ${PWD}/clickhouse/users.d/users.xml:/etc/clickhouse-server/users.d/users.xml
+    ports:
+      - "8123:8123"
+      - "9000:9000"
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    hostname: grafana
+    volumes:
+      - ${PWD}/grafana/datasource:/etc/grafana/provisioning/datasources
+      - ${PWD}/grafana/grafana-clickhouse-datasource:/var/lib/grafana/plugins/grafana-clickhouse-datasource
+    ports:
+      - "3000:3000"
+    depends_on:
+      - clickhouse
